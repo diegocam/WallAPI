@@ -1,3 +1,3 @@
-# Wall - Backend
+# Wall - API
 
 PHP/Laravel API to track wall posts.
