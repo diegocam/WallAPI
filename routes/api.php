@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Using "apiResource" as opposed to "Resource" will only create index, store, show, update, and destroy routes.
+Route::apiResource('/users', 'UserController');
