@@ -7,6 +7,27 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function signup(Request $request)
+    {
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
+        ]);
+
+        $user = new User([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password'))
+        ]);
+        $user->save();
+        return response()->json([
+            'message' => 'Successfully created user!'
+        ], 201);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +35,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::find(1);
+        dump($user);
     }
 
     /**
