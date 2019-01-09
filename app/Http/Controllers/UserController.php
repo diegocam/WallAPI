@@ -13,7 +13,9 @@ class UserController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required',
+            'client_secret' => 'required',
+            'client_id' => 'required',
         ]);
 
         $user = new User([
@@ -23,8 +25,25 @@ class UserController extends Controller
             'password' => bcrypt($request->input('password'))
         ]);
         $user->save();
+
+        // request a new API Access Token for the user as long as they
+        // provided the correct authorized client ID/Secret
+        $http = new \GuzzleHttp\Client;
+        $response = $http->post(url('/oauth/token'), [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => $request->input('client_id'),
+                'client_secret' => $request->input('client_secret'),
+                'username' => $request->input('email'),
+                'password' => $request->input('password'),
+                'scope' => '',
+            ],
+        ]);
+        $token = json_decode((string) $response->getBody(), true)['access_token'];
+
         return response()->json([
-            'message' => 'Successfully created user!'
+            'message' => 'Successfully created user!',
+            'token' => $token
         ], 201);
     }
 
@@ -35,8 +54,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::find(1);
-        dump($user);
+        $user = User::get();
+        return response()->json($user, 200);
     }
 
     /**
