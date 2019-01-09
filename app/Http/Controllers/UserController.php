@@ -39,7 +39,7 @@ class UserController extends Controller
                 'scope' => '',
             ],
         ]);
-        $token = json_decode((string) $response->getBody(), true)['access_token'];
+        $token = json_decode((string) $response->getBody(), true);
 
         return response()->json([
             'message' => 'Successfully created user!',
