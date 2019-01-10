@@ -31,6 +31,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Successfully created user!',
+            'user' => $user,
             'token' => $token,
         ], 201);
     }
@@ -67,6 +68,7 @@ class UserController extends Controller
         if ($user && Hash::check($request->input('password'), $user->password)) {
             return response()->json([
                 'message' => 'Successfully created user!',
+                'user' => $user,
                 'token' => $this->createToken($request),
             ], 201);
         } else {
