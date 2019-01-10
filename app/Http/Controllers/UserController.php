@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Hash;
 
 class UserController extends Controller
 {
@@ -22,12 +23,20 @@ class UserController extends Controller
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password'))
+            'password' => bcrypt($request->input('password')),
         ]);
         $user->save();
 
-        // request a new API Access Token for the user as long as they
-        // provided the correct authorized client ID/Secret
+        $token = $this->createToken($request);
+
+        return response()->json([
+            'message' => 'Successfully created user!',
+            'token' => $token,
+        ], 201);
+    }
+
+    private function createToken(Request $request)
+    {
         $http = new \GuzzleHttp\Client;
         $response = $http->post(url('/oauth/token'), [
             'form_params' => [
@@ -39,12 +48,37 @@ class UserController extends Controller
                 'scope' => '',
             ],
         ]);
-        $token = json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
+    }
 
-        return response()->json([
-            'message' => 'Successfully created user!',
-            'token' => $token
-        ], 201);
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+            'client_secret' => 'required',
+            'client_id' => 'required',
+        ]);
+
+        $user = User::query()
+            ->where('email', $request->input('email'))
+            ->first();
+
+        if ($user && Hash::check($request->input('password'), $user->password)) {
+            return response()->json([
+                'message' => 'Successfully created user!',
+                'token' => $this->createToken($request),
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Login failed',
+                'received' => [
+                    $request->input('email'),
+                    bcrypt($request->input('password')),
+                ]
+            ], 401);
+        }
+
     }
 
     /**
