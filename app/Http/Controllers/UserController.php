@@ -94,6 +94,11 @@ class UserController extends Controller
         return response()->json($user, 200);
     }
 
+    public function getUser(User $user)
+    {
+        return response()->json($user, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
