@@ -29,8 +29,20 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = ['full_name'];
+
     public function wall()
     {
         return $this->hasOne(Wall::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) .' '. ucfirst($this->last_name);
     }
 }
