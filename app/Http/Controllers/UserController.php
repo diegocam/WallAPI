@@ -96,6 +96,9 @@ class UserController extends Controller
 
     public function getUser(User $user)
     {
+        $user = User::with('posts')
+            ->where('id', $user->id)
+            ->first();
         return response()->json($user, 200);
     }
 
