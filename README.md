@@ -54,11 +54,11 @@ PHP/Laravel RESTful API to manage users, posts, comments, registration, authoriz
     ``` 
 12. Create a password grant client. (**CRUCIAL**)
     1. Run `php artisan passport:client --password`.
-    2. It will ask your for a name, you may hit enter to leave it as is or enter `Wall Front` for a better descriptive name.
-    3. When done you will see a `Client ID` and a `Client Secret`. You will need those to update your front end (https://github.com/diegocam/Wall) `.env` entries. For example, when done, on the front end `.env`'s file you might have something like this:
+    2. It will ask your for a name, you may hit enter to leave it as is or enter `Wall Front` for a more descriptive name.
+    3. When done, you will see a `Client ID` and a `Client Secret`. You will need those to update your `.env` entries. 
+    4. Open up `.env` and towards the bottom you will see the empty entries. Fill them out using the `Client ID` and `Client Secret` from above.
     ```
-    API_URL=http://wall-api.local
-    API_CLIENT_SECRET=lksdjfklsjdkjsdlkfjkljsdflkjdsf
-    API_CLIENT_ID=1
+    PASSPORT_CLIENT_SECRET=
+    PASSPORT_CLIENT_ID=
     ```
 13. On a browser, try going to http://wall-api.local to see the Laravel welcome screen. If you see this, you have successfully installed the API locally.

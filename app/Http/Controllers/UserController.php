@@ -15,8 +15,6 @@ class UserController extends Controller
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'client_secret' => 'required',
-            'client_id' => 'required',
         ]);
 
         $user = new User([
@@ -42,8 +40,8 @@ class UserController extends Controller
         $response = $http->post(url('/oauth/token'), [
             'form_params' => [
                 'grant_type' => 'password',
-                'client_id' => $request->input('client_id'),
-                'client_secret' => $request->input('client_secret'),
+                'client_id' => config('services.passport.client_id'),
+                'client_secret' => config('services.passport.client_secret'),
                 'username' => $request->input('email'),
                 'password' => $request->input('password'),
                 'scope' => '',
@@ -57,8 +55,6 @@ class UserController extends Controller
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required',
-            'client_secret' => 'required',
-            'client_id' => 'required',
         ]);
 
         $user = User::query()
