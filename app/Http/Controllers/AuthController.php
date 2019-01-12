@@ -63,6 +63,15 @@ class AuthController extends Controller
 
     }
 
+    public function logout()
+    {
+        auth()->user()->tokens->each(function($token, $key) {
+            $token->delete();
+        });
+
+        return response()->json('Logged out sucessfully', 200);
+       }
+
     private function createToken(Request $request)
     {
         $http = new \GuzzleHttp\Client;

@@ -22,6 +22,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::apiResource('/users', 'UserController');
     Route::post('/post', 'PostController@store');
     Route::post('/comment/{post}', 'CommentController@store');
+    Route::post('/logout', 'AuthController@logout');
 });
 
 Route::post('/register', 'AuthController@register');
