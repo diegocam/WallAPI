@@ -24,7 +24,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/comment/{post}', 'CommentController@store');
 });
 
+Route::post('/register', 'AuthController@register');
+Route::post('/login', 'AuthController@login');
 Route::get('/user/{user}', 'UserController@getUser');
-Route::post('/register', 'UserController@register');
-Route::post('/login', 'UserController@login');
 Route::get('/walls', 'WallController@index');
