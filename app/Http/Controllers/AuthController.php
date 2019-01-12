@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Hash;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -65,12 +65,12 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->user()->tokens->each(function($token, $key) {
+        auth()->user()->tokens->each(function ($token, $key) {
             $token->delete();
         });
 
         return response()->json('Logged out sucessfully', 200);
-       }
+    }
 
     private function createToken(Request $request)
     {
