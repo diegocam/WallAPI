@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class Post extends Model
 {
@@ -18,6 +17,11 @@ class Post extends Model
     public function getUpdatedWhenAttribute($value)
     {
         return $this->updated_at->diffForHumans();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

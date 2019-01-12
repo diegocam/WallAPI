@@ -21,6 +21,7 @@ Route::middleware(['auth:api'])->group(function () {
     // Using "apiResource" as opposed to "Resource" will only create index, store, show, update, and destroy routes.
     Route::apiResource('/users', 'UserController');
     Route::post('/post', 'PostController@store');
+    Route::post('/comment/{post}', 'CommentController@store');
 });
 
 Route::get('/user/{user}', 'UserController@getUser');

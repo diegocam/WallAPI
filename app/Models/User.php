@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getFullNameAttribute()
     {
         return ucfirst($this->first_name) .' '. ucfirst($this->last_name);
